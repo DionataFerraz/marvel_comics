@@ -6,4 +6,39 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="TextAppearance.Bold" parent="TextAppearance">
+        <item name="android:fontFamily">@font/lato_bold</item>
+    </style>
+
+    <style name="TextAppearance.Bold.Large" parent="TextAppearance.Bold">
+        <item name="android:fontFamily">@font/lato_bold</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+
+
+    <style name="TextAppearance.Bold.ExtraLarge" parent="TextAppearance.Bold">
+        <item name="android:fontFamily">@font/lato_bold</item>
+        <item name="android:textSize">@dimen/text_size_extra_large</item>
+    </style>
+
+    <style name="TextAppearance.Regular" parent="TextAppearance">
+        <item name="android:fontFamily">@font/lato_regular</item>
+    </style>
+
+    <style name="RecyclerView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingEnd">@dimen/view_padding_horizontal</item>
+        <item name="android:paddingStart">@dimen/view_padding_horizontal</item>
+        <item name="android:scrollbars">none</item>
+        <item name="layoutManager">androidx.recyclerview.widget.LinearLayoutManager</item>
+    </style>
+
 </resources>

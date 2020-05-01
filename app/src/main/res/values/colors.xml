@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+
+    <color name="colorPrimary">@color/black_shark</color>
+    <color name="colorPrimaryDark">@android:color/black</color>
+    <color name="colorAccent">#ddb43f</color>
+
+    <color name="white_alpha_95">#F8FFFFFF</color>
+    <color name="white_alpha_40">#66FFFFFF</color>
+    <color name="white_alpha_20">#33ffffff</color>
+
+    <color name="dark_grey">#111214</color>
+    <color name="black_shark">#252626</color>
+
 </resources>

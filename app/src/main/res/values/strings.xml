@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Marvel Comics</string>
+
+    <string name="search_hint">Nome do Personagem</string>
+    <string name="placeholder_description">Join 3-D MAN, CLOUD 9, KOMODO, HARDBALL, and heroes around America in the battle that will decide the fate of the planet and the future of the Initiative program. Will the Kill Krew Army win the day?</string>
+    <string name="title_comics">Comics</string>
+    <string name="title_series">Series</string>
 </resources>

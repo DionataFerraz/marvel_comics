@@ -1,12 +1,13 @@
-package com.dionataferraz.marvel_comics
+package com.dionataferraz.marvel_comics.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.dionataferraz.marvel_comics.R
 
-class MainActivity : AppCompatActivity() {
+class CharacterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_character)
     }
 }

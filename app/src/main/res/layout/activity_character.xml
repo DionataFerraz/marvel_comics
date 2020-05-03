@@ -104,7 +104,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                app:visible="@{vm.isEmptyCharacter}">
+                app:visible="@{vm.isEmptyContent}"
+                tools:visibility="visible">
 
                 <ImageView
                     android:id="@+id/iv_character_image"
@@ -151,6 +152,7 @@
                         android:layout_marginBottom="@dimen/view_margin_between_views"
                         android:text="@{vm.characterDescription}"
                         android:textAppearance="@style/TextAppearance.Regular"
+                        app:visible="@{vm.isEmptyDescription}"
                         tools:text="@string/placeholder_description" />
 
                     <TextView
@@ -160,12 +162,14 @@
                         android:layout_marginStart="@dimen/view_margin_horizontal"
                         android:layout_marginTop="@dimen/view_margin_between_views"
                         android:text="@string/title_comics"
-                        android:textAppearance="@style/TextAppearance.Bold.Large" />
+                        android:textAppearance="@style/TextAppearance.Bold.Large"
+                        app:visible="@{vm.isEmptyComics}" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_comics"
                         style="@style/RecyclerView"
-                        tools:listitem="@layout/view_item" />
+                        app:visible="@{vm.isEmptyComics}"
+                        tools:listitem="@layout/item_comic" />
 
                     <TextView
                         android:id="@+id/tv_series"
@@ -179,7 +183,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_series"
                         style="@style/RecyclerView"
-                        tools:listitem="@layout/view_item" />
+                        tools:listitem="@layout/item_comic" />
 
                 </LinearLayout>
 

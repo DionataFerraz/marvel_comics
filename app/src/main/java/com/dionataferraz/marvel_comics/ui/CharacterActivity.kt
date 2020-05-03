@@ -9,6 +9,7 @@ import com.dionataferraz.presentation.CharacterViewModel
 import kotlinx.android.synthetic.main.activity_character.*
 import org.koin.android.ext.android.inject
 import com.dionataferraz.marvel_comics.extensions.showSnackbar
+import com.dionataferraz.marvel_comics.ui.adapters.ComicsAdapter
 
 class CharacterActivity : BindingBaseActivity<ActivityCharacterBinding>() {
 
@@ -20,6 +21,10 @@ class CharacterActivity : BindingBaseActivity<ActivityCharacterBinding>() {
         binding.vm = viewModel
     }
 
+    private val adapter by lazy {
+        ComicsAdapter().apply { rv_comics.adapter = this }
+    }
+
     override fun initializeViewModels() {
         viewModel.run {
             closeKeyboard().observe(this@CharacterActivity, Observer { shouldCloseKeyboard ->
@@ -28,7 +33,13 @@ class CharacterActivity : BindingBaseActivity<ActivityCharacterBinding>() {
                 }
             })
 
-            error.observe(this@CharacterActivity, Observer { message -> cl_container.showSnackbar(message) })
+            comicPresentation().observe(this@CharacterActivity, Observer { comics ->
+                adapter.submitList(comics)
+            })
+
+            error.observe(
+                this@CharacterActivity,
+                Observer { message -> cl_container.showSnackbar(message) })
         }
     }
 }

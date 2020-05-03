@@ -23,7 +23,7 @@ class CharacterRepositoryImpl : CharacterRepository {
             )
             return response.data.results.first()
         } catch (e: Exception) {
-            throw  Exception()
+            throw  e
         }
     }
 

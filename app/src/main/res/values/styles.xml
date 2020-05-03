@@ -26,6 +26,10 @@
         <item name="android:textSize">@dimen/text_size_extra_large</item>
     </style>
 
+    <style name="TextAppearance.Regular.Small" parent="TextAppearance.Regular">
+        <item name="android:textSize">@dimen/text_size_extra_small</item>
+    </style>
+
     <style name="TextAppearance.Regular" parent="TextAppearance">
         <item name="android:fontFamily">@font/lato_regular</item>
     </style>

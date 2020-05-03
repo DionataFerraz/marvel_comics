@@ -1,6 +1,7 @@
 package com.dionataferraz.remote
 
 import com.dionataferraz.data.model.Character
+import com.dionataferraz.data.model.Comic
 import com.dionataferraz.data.repository.CharacterRepository
 import com.dionataferraz.remote.helper.AccessFactory.getAccess
 import com.dionataferraz.remote.services.CharacterService
@@ -22,6 +23,19 @@ class CharacterRepositoryImpl : CharacterRepository {
                 characterName
             )
             return response.data.results.first()
+        } catch (e: Exception) {
+            throw  e
+        }
+    }
+
+    override suspend fun loadComics(characterId: Int): List<Comic> {
+        try {
+            val response = retrofitServer.getComics(
+                characterId,
+                access.first,
+                access.second
+            )
+            return response.data.results
         } catch (e: Exception) {
             throw  e
         }

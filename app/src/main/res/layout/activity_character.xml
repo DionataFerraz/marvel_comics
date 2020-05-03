@@ -11,6 +11,7 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/cl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -43,6 +44,7 @@
                     <AutoCompleteTextView
                         android:layout_width="match_parent"
                         android:layout_height="38dp"
+                        android:afterTextChanged="@{(text) -> vm.onTextChange(text)}"
                         android:background="@drawable/shape_border_corner_black"
                         android:completionThreshold="3"
                         android:drawableStart="@drawable/ic_search"
@@ -51,10 +53,12 @@
                         android:hint="@string/search_hint"
                         android:imeOptions="actionSearch"
                         android:inputType="textNoSuggestions|textCapSentences"
+                        android:onEditorAction="@{(view, actionId, event) -> vm.onEditorAction(view, actionId)}"
                         android:paddingStart="14dp"
                         android:paddingEnd="36dp"
                         android:popupBackground="@drawable/shape_border_corner_white"
                         android:privateImeOptions="nm"
+                        android:text="@{vm.editText}"
                         android:textColor="@android:color/white"
                         android:textColorHighlight="@color/white_alpha_40"
                         android:textColorHint="@color/white_alpha_40"
@@ -67,6 +71,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginEnd="6dp"
+                        android:onClick="@{() -> vm.clearText()}"
                         android:padding="8dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_close"
@@ -74,6 +79,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:visible="@{!vm.isVisibleClear}"
                         tools:ignore="contentDescription" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -96,13 +102,16 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:visible="@{vm.isEmptyCharacter}">
 
                 <ImageView
                     android:id="@+id/iv_character_image"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
+                    app:imageUrl="@{vm.characterImage}"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="contentDescription"
                     tools:src="@drawable/img_place_holder" />
@@ -120,6 +129,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="24dp"
                     android:gravity="center|bottom"
+                    android:text="@{vm.characterName}"
                     android:textAppearance="@style/TextAppearance.Bold.Large"
                     app:layout_constraintBottom_toBottomOf="@id/v_gradient"
                     tools:text="@string/search_hint" />
@@ -139,6 +149,7 @@
                         android:layout_marginTop="@dimen/view_margin_between_views"
                         android:layout_marginEnd="@dimen/view_margin_horizontal"
                         android:layout_marginBottom="@dimen/view_margin_between_views"
+                        android:text="@{vm.characterDescription}"
                         android:textAppearance="@style/TextAppearance.Regular"
                         tools:text="@string/placeholder_description" />
 
@@ -172,19 +183,16 @@
 
                 </LinearLayout>
 
-                <ProgressBar
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="44dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:visible="@{vm.isLoading}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

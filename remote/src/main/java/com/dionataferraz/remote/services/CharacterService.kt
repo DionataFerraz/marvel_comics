@@ -13,6 +13,6 @@ interface CharacterService {
     suspend fun getCharacter(
         @Query("ts") ts: String,
         @Query("hash") hash: String,
-        @Query("name") name: String
+        @Query("nameStartsWith") nameStartsWith: String
     ): DataResponse<Results<Character>>
 }

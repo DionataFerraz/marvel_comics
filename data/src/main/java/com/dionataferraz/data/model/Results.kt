@@ -1,5 +1,5 @@
 package com.dionataferraz.data.model
 
 data class Results<T>(
-    val results: T
+    val results: List<T>
 )

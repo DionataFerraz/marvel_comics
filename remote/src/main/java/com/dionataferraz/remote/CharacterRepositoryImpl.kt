@@ -21,7 +21,7 @@ class CharacterRepositoryImpl : CharacterRepository {
                 access.second,
                 characterName
             )
-            return response.data.results
+            return response.data.results.first()
         } catch (e: Exception) {
             throw  Exception()
         }

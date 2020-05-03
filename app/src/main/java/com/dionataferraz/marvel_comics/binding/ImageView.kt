@@ -1,4 +1,4 @@
-package com.dionataferraz.marvel_comics.bindingbinding
+package com.dionataferraz.marvel_comics.binding
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter

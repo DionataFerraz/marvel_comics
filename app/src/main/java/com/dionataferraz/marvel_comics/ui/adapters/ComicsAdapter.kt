@@ -7,10 +7,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dionataferraz.marvel_comics.R
+import com.dionataferraz.marvel_comics.binding.RecyclerViewBinding.BindableAdapter
 import com.dionataferraz.marvel_comics.databinding.ItemComicBinding
 import com.dionataferraz.presentation.model.ComicPresentation
 
-class ComicsAdapter : ListAdapter<ComicPresentation, ComicsAdapter.ViewHolder>(ComicListDiffCallback()) {
+class ComicsAdapter : ListAdapter<ComicPresentation, ComicsAdapter.ViewHolder>(ComicListDiffCallback()),
+    BindableAdapter<List<ComicPresentation>> {
+
+    override fun setData(data: List<ComicPresentation>?) {
+        submitList(data)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(

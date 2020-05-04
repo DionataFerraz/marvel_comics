@@ -21,8 +21,8 @@ class CharacterActivity : BindingBaseActivity<ActivityCharacterBinding>() {
         binding.vm = viewModel
     }
 
-    private val adapter by lazy {
-        ComicsAdapter().apply { rv_comics.adapter = this }
+    override fun initializeUI() {
+        rv_comics.adapter = ComicsAdapter()
     }
 
     override fun initializeViewModels() {
@@ -33,13 +33,7 @@ class CharacterActivity : BindingBaseActivity<ActivityCharacterBinding>() {
                 }
             })
 
-            comicPresentation().observe(this@CharacterActivity, Observer { comics ->
-                adapter.submitList(comics)
-            })
-
-            error.observe(
-                this@CharacterActivity,
-                Observer { message -> cl_container.showSnackbar(message) })
+            error.observe(this@CharacterActivity, Observer { message -> cl_container.showSnackbar(message) })
         }
     }
 }

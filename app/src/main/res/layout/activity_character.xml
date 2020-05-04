@@ -168,6 +168,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_comics"
                         style="@style/RecyclerView"
+                        app:data="@{vm.comicPresentation}"
                         app:visible="@{vm.isEmptyComics}"
                         tools:listitem="@layout/item_comic" />
 

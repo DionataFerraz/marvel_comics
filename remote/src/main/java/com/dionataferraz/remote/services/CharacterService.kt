@@ -1,9 +1,6 @@
 package com.dionataferraz.remote.services
 
-import com.dionataferraz.data.model.Character
-import com.dionataferraz.data.model.Comic
-import com.dionataferraz.data.model.DataResponse
-import com.dionataferraz.data.model.Results
+import com.dionataferraz.data.model.*
 import com.dionataferraz.remote.BuildConfig
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -24,4 +21,11 @@ interface CharacterService {
         @Query("ts") ts: String,
         @Query("hash") hash: String
     ): DataResponse<Results<Comic>>
+
+    @GET("characters/{characterId}/series?apikey=${BuildConfig.PRIVATE_KEY}")
+    suspend fun getSeries(
+        @Path("characterId") characterId: Int,
+        @Query("ts") ts: String,
+        @Query("hash") hash: String
+    ): DataResponse<Results<Serie>>
 }

@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dionataferraz.marvel_comics.R
 import com.dionataferraz.marvel_comics.binding.RecyclerViewBinding.BindableAdapter
 import com.dionataferraz.marvel_comics.databinding.ItemComicBinding
-import com.dionataferraz.presentation.model.ComicPresentation
+import com.dionataferraz.presentation.model.CommonItemPresentation
 
-class ComicsAdapter : ListAdapter<ComicPresentation, ComicsAdapter.ViewHolder>(ComicListDiffCallback()),
-    BindableAdapter<List<ComicPresentation>> {
+class ComicsAdapter : ListAdapter<CommonItemPresentation, ComicsAdapter.ViewHolder>(ComicListDiffCallback()),
+    BindableAdapter<List<CommonItemPresentation>> {
 
-    override fun setData(data: List<ComicPresentation>?) {
+    override fun setData(data: List<CommonItemPresentation>?) {
         submitList(data)
     }
 
@@ -39,12 +39,12 @@ class ComicsAdapter : ListAdapter<ComicPresentation, ComicsAdapter.ViewHolder>(C
 
     inner class ViewHolder(val binding: ItemComicBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private class ComicListDiffCallback : DiffUtil.ItemCallback<ComicPresentation>() {
+    private class ComicListDiffCallback : DiffUtil.ItemCallback<CommonItemPresentation>() {
 
-        override fun areItemsTheSame(oldItem: ComicPresentation, newItem: ComicPresentation): Boolean =
+        override fun areItemsTheSame(oldItem: CommonItemPresentation, newItem: CommonItemPresentation): Boolean =
             oldItem == newItem
 
-        override fun areContentsTheSame(oldItem: ComicPresentation, newItem: ComicPresentation): Boolean =
+        override fun areContentsTheSame(oldItem: CommonItemPresentation, newItem: CommonItemPresentation): Boolean =
             oldItem == newItem
 
     }

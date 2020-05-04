@@ -1,8 +1,7 @@
 package com.dionataferraz.remote
 
 import com.dionataferraz.data.model.Character
-import com.dionataferraz.data.model.Comic
-import com.dionataferraz.data.model.Serie
+import com.dionataferraz.data.model.CommonItem
 import com.dionataferraz.data.repository.CharacterRepository
 import com.dionataferraz.remote.helper.AccessFactory.getAccess
 import com.dionataferraz.remote.services.CharacterService
@@ -29,7 +28,7 @@ class CharacterRepositoryImpl : CharacterRepository {
         }
     }
 
-    override suspend fun loadComics(characterId: Int): List<Comic> {
+    override suspend fun loadComics(characterId: Int): List<CommonItem> {
         try {
             val response = retrofitServer.getComics(
                 characterId,
@@ -42,7 +41,7 @@ class CharacterRepositoryImpl : CharacterRepository {
         }
     }
 
-    override suspend fun loadSeries(characterId: Int): List<Serie> {
+    override suspend fun loadSeries(characterId: Int): List<CommonItem> {
         try {
             val response = retrofitServer.getSeries(
                 characterId,

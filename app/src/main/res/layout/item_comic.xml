@@ -7,7 +7,7 @@
 
         <variable
             name="comic"
-            type="com.dionataferraz.presentation.model.ComicPresentation" />
+            type="com.dionataferraz.presentation.model.CommonItemPresentation" />
 
     </data>
 

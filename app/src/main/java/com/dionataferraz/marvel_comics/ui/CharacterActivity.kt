@@ -23,6 +23,7 @@ class CharacterActivity : BindingBaseActivity<ActivityCharacterBinding>() {
 
     override fun initializeUI() {
         rv_comics.adapter = ComicsAdapter()
+        rv_series.adapter = ComicsAdapter()
     }
 
     override fun initializeViewModels() {

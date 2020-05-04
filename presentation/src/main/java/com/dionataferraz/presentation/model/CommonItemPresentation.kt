@@ -1,6 +1,6 @@
 package com.dionataferraz.presentation.model
 
-data class SeriePresentation(
+data class CommonItemPresentation(
     val title: String,
     val image: String
 )

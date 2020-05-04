@@ -20,12 +20,12 @@ interface CharacterService {
         @Path("characterId") characterId: Int,
         @Query("ts") ts: String,
         @Query("hash") hash: String
-    ): DataResponse<Results<Comic>>
+    ): DataResponse<Results<CommonItem>>
 
     @GET("characters/{characterId}/series?apikey=${BuildConfig.PRIVATE_KEY}")
     suspend fun getSeries(
         @Path("characterId") characterId: Int,
         @Query("ts") ts: String,
         @Query("hash") hash: String
-    ): DataResponse<Results<Serie>>
+    ): DataResponse<Results<CommonItem>>
 }

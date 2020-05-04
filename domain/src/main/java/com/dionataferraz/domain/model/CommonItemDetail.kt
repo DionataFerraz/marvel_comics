@@ -1,6 +1,6 @@
 package com.dionataferraz.domain.model
 
-data class SerieDetail(
+data class CommonItemDetail(
     val title: String,
     val image: String
 )

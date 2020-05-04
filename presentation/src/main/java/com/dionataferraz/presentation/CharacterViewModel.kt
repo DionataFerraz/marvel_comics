@@ -13,10 +13,8 @@ import android.widget.TextView
 import android.view.inputmethod.EditorInfo
 import com.dionataferraz.domain.interactor.GetComicsDetailUseCase
 import com.dionataferraz.domain.interactor.GetSeriesDetailUseCase
-import com.dionataferraz.presentation.model.ComicPresentation
-import com.dionataferraz.presentation.model.SeriePresentation
-import com.dionataferraz.presentation.model.mapper.toComicPresentation
-import com.dionataferraz.presentation.model.mapper.toSeriePresentation
+import com.dionataferraz.presentation.model.CommonItemPresentation
+import com.dionataferraz.presentation.model.mapper.toCommonItemPresentation
 
 class CharacterViewModel(
     private val useCase: GetCharacterDetailUseCase,
@@ -26,8 +24,8 @@ class CharacterViewModel(
 
     private val isVisible = MutableLiveData<Boolean>(false)
     private val characterPresentation = MutableLiveData<CharacterPresentation>()
-    private val comicPresentation = MutableLiveData<List<ComicPresentation>>()
-    private val seriePresentation = MutableLiveData<List<SeriePresentation>>()
+    private val comicPresentation = MutableLiveData<List<CommonItemPresentation>>()
+    private val seriePresentation = MutableLiveData<List<CommonItemPresentation>>()
     private val closeKeyboard = MutableLiveData<Boolean>()
     private val isVisibleClear = MutableLiveData<Boolean>(true)
     private val editText = MutableLiveData<String>()
@@ -58,8 +56,8 @@ class CharacterViewModel(
                 withContext(Dispatchers.IO) {
                     val character = useCase.invoke(characterName).toCharacterPresentation()
                     characterPresentation.postValue(character)
-                    comicPresentation.postValue(getComicsDetailUseCase.invoke(character.id).toComicPresentation())
-                    seriePresentation.postValue(getSeriesDetailUseCase.invoke(character.id).toSeriePresentation())
+                    comicPresentation.postValue(getComicsDetailUseCase.invoke(character.id).toCommonItemPresentation())
+                    seriePresentation.postValue(getSeriesDetailUseCase.invoke(character.id).toCommonItemPresentation())
 
                     showContent()
                 }

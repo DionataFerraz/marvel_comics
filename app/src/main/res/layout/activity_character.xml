@@ -179,11 +179,14 @@
                         android:layout_marginStart="@dimen/view_margin_horizontal"
                         android:layout_marginTop="@dimen/view_margin_between_views"
                         android:text="@string/title_series"
-                        android:textAppearance="@style/TextAppearance.Bold.Large" />
+                        android:textAppearance="@style/TextAppearance.Bold.Large"
+                        app:visible="@{vm.isEmptySeries}" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_series"
                         style="@style/RecyclerView"
+                        app:data="@{vm.seriePresentation()}"
+                        app:visible="@{vm.isEmptySeries}"
                         tools:listitem="@layout/item_comic" />
 
                 </LinearLayout>

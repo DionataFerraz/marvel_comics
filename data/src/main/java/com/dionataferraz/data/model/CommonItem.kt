@@ -1,6 +1,6 @@
 package com.dionataferraz.data.model
 
-data class Comic(
+data class CommonItem(
     val title: String,
     val thumbnail: Thumbnail
 )

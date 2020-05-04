@@ -12,17 +12,22 @@ import kotlinx.coroutines.withContext
 import android.widget.TextView
 import android.view.inputmethod.EditorInfo
 import com.dionataferraz.domain.interactor.GetComicsDetailUseCase
+import com.dionataferraz.domain.interactor.GetSeriesDetailUseCase
 import com.dionataferraz.presentation.model.ComicPresentation
+import com.dionataferraz.presentation.model.SeriePresentation
 import com.dionataferraz.presentation.model.mapper.toComicPresentation
+import com.dionataferraz.presentation.model.mapper.toSeriePresentation
 
 class CharacterViewModel(
     private val useCase: GetCharacterDetailUseCase,
-    private val getComicsDetailUseCase: GetComicsDetailUseCase
+    private val getComicsDetailUseCase: GetComicsDetailUseCase,
+    private val getSeriesDetailUseCase: GetSeriesDetailUseCase
 ) : ViewModel() {
 
     private val isVisible = MutableLiveData<Boolean>(false)
     private val characterPresentation = MutableLiveData<CharacterPresentation>()
     private val comicPresentation = MutableLiveData<List<ComicPresentation>>()
+    private val seriePresentation = MutableLiveData<List<SeriePresentation>>()
     private val closeKeyboard = MutableLiveData<Boolean>()
     private val isVisibleClear = MutableLiveData<Boolean>(true)
     private val editText = MutableLiveData<String>()
@@ -35,12 +40,14 @@ class CharacterViewModel(
     val characterImage = switchMapToLiveData(characterPresentation) { character -> character.image }
     val isEmptyDescription = switchMapToLiveData(characterDescription) { description -> description.isNotEmpty() }
     val isEmptyComics = switchMapToLiveData(comicPresentation) { comics -> comics.isNotEmpty() }
+    val isEmptySeries = switchMapToLiveData(seriePresentation) { series -> series.isNotEmpty() }
 
     fun closeKeyboard() = switchMapToLiveData(closeKeyboard) { closeKeyboard -> closeKeyboard }
     fun isVisibleClear() = switchMapToLiveData(isVisibleClear) { isVisibleClear -> isVisibleClear }
     fun editText() = switchMapToLiveData(editText) { editText -> editText }
     fun isLoading() = switchMapToLiveData(isVisible) { isVisible -> isVisible }
     fun comicPresentation() = switchMapToLiveData(comicPresentation) { comicPresentation -> comicPresentation }
+    fun seriePresentation() = switchMapToLiveData(seriePresentation) { seriePresentation -> seriePresentation }
     fun isEmptyContent() = switchMapToLiveData(isEmptyContent) { isEmptyContent -> isEmptyContent }
 
     private fun loadCharacters(characterName: String) {
@@ -52,6 +59,7 @@ class CharacterViewModel(
                     val character = useCase.invoke(characterName).toCharacterPresentation()
                     characterPresentation.postValue(character)
                     comicPresentation.postValue(getComicsDetailUseCase.invoke(character.id).toComicPresentation())
+                    seriePresentation.postValue(getSeriesDetailUseCase.invoke(character.id).toSeriePresentation())
 
                     showContent()
                 }

@@ -42,7 +42,6 @@
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
-                        android:id="@+id/actv_character_name"
                         android:layout_width="match_parent"
                         android:layout_height="38dp"
                         android:background="@drawable/shape_border_corner_black"
@@ -63,8 +62,10 @@
                         android:textColorHint="@color/white_alpha_40"
                         android:textColorLink="@color/white_alpha_40"
                         android:textCursorDrawable="@null"
+                        app:afterTextChanged="@{vm.onTextChange}"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:onClickActionSearch="@{vm.loadCharacter}" />
 
                     <ImageView
                         android:layout_width="30dp"

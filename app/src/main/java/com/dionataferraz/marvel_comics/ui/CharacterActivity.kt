@@ -1,8 +1,5 @@
 package com.dionataferraz.marvel_comics.ui
 
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import com.dionataferraz.marvel_comics.R
 import com.dionataferraz.marvel_comics.base.BindingBaseActivity
@@ -27,25 +24,6 @@ class CharacterActivity : BindingBaseActivity<ActivityCharacterBinding>() {
     override fun initializeUI() {
         rv_comics.adapter = ComicsAdapter()
         rv_series.adapter = ComicsAdapter()
-
-        actv_character_name.run {
-            setOnEditorActionListener { view, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    viewModel.loadCharacter(view.text.toString())
-                }
-                false
-            }
-
-            addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(editable: Editable?) {
-                    viewModel.onTextChange(editable?.toString())
-                }
-
-                override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
-
-                override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
-            })
-        }
     }
 
     override fun initializeViewModels() {

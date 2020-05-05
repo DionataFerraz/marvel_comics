@@ -20,7 +20,8 @@ class CharacterViewModel(
     private val getCharacter = MutableLiveData<String>()
     private val characterNotNull = MutableLiveData<CharacterPresentation>()
 
-    private val resourceCharacter = Transformations.switchMap(getCharacter) { characterName -> getCharacterDetailUseCase(characterName) }
+    private val resourceCharacter =
+        Transformations.switchMap(getCharacter) { characterName -> getCharacterDetailUseCase(characterName) }
     private val character = switchMapToLiveData(resourceCharacter) { character ->
         val char = character.data?.toCharacterPresentation()
         if (char != null) {
@@ -76,19 +77,20 @@ class CharacterViewModel(
     fun isVisibleClear() = switchMapToLiveData(isVisibleClear) { isVisibleClear -> isVisibleClear }
     fun editText() = switchMapToLiveData(editText) { editText -> editText }
 
-    fun loadCharacter(characterName: String) {
+    val loadCharacter = fun(characterName: String) {
         closeKeyBoard()
         getCharacter.value = characterName
+    }
+
+    val onTextChange = fun(text: String?) {
+        text.isNullOrEmpty().run {
+            isVisibleClear.value = this
+        }
     }
 
     fun clearText() {
         editText.value = ""
     }
-
-    fun onTextChange(text: String?): Boolean =
-        text.isNullOrEmpty().apply {
-            isVisibleClear.value = this
-        }
 
     private fun closeKeyBoard() {
         closeKeyboard.value = true

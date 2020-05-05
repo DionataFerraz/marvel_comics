@@ -20,8 +20,7 @@ class CharacterViewModel(
     private val getCharacter = MutableLiveData<String>()
     private val characterNotNull = MutableLiveData<CharacterPresentation>()
 
-    private val resourceCharacter =
-        Transformations.switchMap(getCharacter) { characterName -> getCharacterDetailUseCase.invoke(characterName) }
+    private val resourceCharacter = Transformations.switchMap(getCharacter) { characterName -> getCharacterDetailUseCase(characterName) }
     private val character = switchMapToLiveData(resourceCharacter) { character ->
         val char = character.data?.toCharacterPresentation()
         if (char != null) {
@@ -38,13 +37,13 @@ class CharacterViewModel(
     val isEmptyImage = switchMapToLiveData(characterImage) { image -> image?.isNotEmpty() }
 
     private val resourceComics =
-        Transformations.switchMap(characterNotNull) { character -> getComicsDetailUseCase.invoke(character.id) }
+        Transformations.switchMap(characterNotNull) { character -> getComicsDetailUseCase(character.id) }
     val comics = switchMapToLiveData(resourceComics) { comics -> comics.data?.toCommonItemPresentation() }
     val isLoadingComics = switchMapToLiveData(resourceComics) { resourceComics -> resourceComics is Resource.Loading }
     val isEmptyComics = switchMapToLiveData(comics) { comics -> comics?.isNotEmpty() }
 
     private val resourceSeries =
-        Transformations.switchMap(characterNotNull) { character -> getSeriesDetailUseCase.invoke(character.id) }
+        Transformations.switchMap(characterNotNull) { character -> getSeriesDetailUseCase(character.id) }
     val series = switchMapToLiveData(resourceSeries) { comics -> comics.data?.toCommonItemPresentation() }
     val isLoadingSeries = switchMapToLiveData(resourceSeries) { resourceSeries -> resourceSeries is Resource.Loading }
     val isEmptySeries = switchMapToLiveData(series) { comics -> comics?.isNotEmpty() }

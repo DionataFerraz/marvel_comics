@@ -7,7 +7,7 @@ import com.dionataferraz.domain.repository.CharacterRepository
 
 class GetSeriesDetailUseCase(private val repository: CharacterRepository) {
 
-    fun invoke(characterId: Int): LiveData<Resource<List<CommonItemDetail>>> =
+    operator fun invoke(characterId: Int): LiveData<Resource<List<CommonItemDetail>>> =
         repository.loadSeries(characterId = characterId)
 
 }

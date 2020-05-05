@@ -14,6 +14,14 @@ object CharacterData {
         "http://i.annihil.us/u/prod/marvel/i/mg/d/d0/5269657a74350.jpg"
     )
 
+    val THOR_EMPTY = CharacterDetail(
+        1009664,
+        "",
+        "",
+        ""
+
+    )
+
     val CHARACTER_PRESENTATION_THOR = THOR.toCharacterPresentation()
 
     val THOR_COMICS = listOf(
@@ -49,5 +57,7 @@ object CharacterData {
     )
 
     val COMMON_ITEM_DETAIL_SERIES_THOR = THOR_SERIES.toCommonItemPresentation()
+
+    val COMMON_ITEM_EMPTY = listOf<CommonItemDetail>()
 
 }

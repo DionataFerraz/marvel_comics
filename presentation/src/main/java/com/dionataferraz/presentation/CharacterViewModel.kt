@@ -29,7 +29,8 @@ class CharacterViewModel(
         }
         char
     }
-    val isLoadingCharacter = switchMapToLiveData(resourceCharacter) { resourceCharacter -> resourceCharacter is Resource.Loading }
+    val isLoadingCharacter =
+        switchMapToLiveData(resourceCharacter) { resourceCharacter -> resourceCharacter is Resource.Loading }
     val characterName = switchMapToLiveData(character) { character -> character?.name }
     val characterDescription = switchMapToLiveData(character) { character -> character?.description }
     val characterImage = switchMapToLiveData(character) { character -> character?.image }

@@ -1,11 +1,15 @@
-apply plugin: 'kotlin'
+apply from: "$rootDir/common-android-library.gradle"
 
 dependencies {
     implementation project(":data")
+    implementation project(":core")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    testImplementation "androidx.arch.core:core-testing:$core_testing_version"
     testImplementation "junit:junit:$junit_version"
     testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_testing_version"
 }

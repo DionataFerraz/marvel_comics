@@ -1,12 +1,13 @@
 package com.dionataferraz.domain.interactor
 
-import com.dionataferraz.data.repository.CharacterRepository
+import androidx.lifecycle.LiveData
+import com.dionataferraz.core.internal.Resource
 import com.dionataferraz.domain.model.CommonItemDetail
-import com.dionataferraz.domain.model.mapper.toCommonItemDetail
+import com.dionataferraz.domain.repository.CharacterRepository
 
 class GetComicsDetailUseCase(private val repository: CharacterRepository) {
 
-    suspend fun invoke(characterId: Int): List<CommonItemDetail> =
-        repository.loadComics(characterId = characterId).toCommonItemDetail()
+    fun invoke(characterId: Int): LiveData<Resource<List<CommonItemDetail>>> =
+        repository.loadComics(characterId = characterId)
 
 }

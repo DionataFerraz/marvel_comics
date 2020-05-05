@@ -1,10 +1,13 @@
 package com.dionataferraz.domain.interactor
 
-import com.dionataferraz.data.repository.CharacterRepository
-import com.dionataferraz.domain.data.CharacterData.THOR
-import com.dionataferraz.domain.data.CharacterData.CHARACTER_DETAIL_THOR
-import com.dionataferraz.domain.data.CharacterData.COMMON_ITEM_DETAIL_COMICS_THOR
-import com.dionataferraz.domain.data.CharacterData.THOR_COMICS
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.dionataferraz.core.internal.Resource
+import com.dionataferraz.domain.data.CharacterThorData.THOR
+import com.dionataferraz.domain.data.CharacterThorData.COMMON_ITEM_DETAIL_COMICS_THOR
+import com.dionataferraz.domain.model.CommonItemDetail
+import com.dionataferraz.domain.repository.CharacterRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -12,15 +15,20 @@ import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class GetComicsDetailUseCaseTest {
 
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
     private val repository: CharacterRepository = mockk()
+    private val observerCommonItem = Observer<Resource<List<CommonItemDetail?>>> {}
 
     @Before
     fun init() {
-        coEvery { repository.loadComics(THOR.id) } returns THOR_COMICS
+        coEvery { repository.loadComics(THOR.id) } returns MutableLiveData(Resource.Success(COMMON_ITEM_DETAIL_COMICS_THOR))
     }
 
     @Test
@@ -40,16 +48,20 @@ class GetComicsDetailUseCaseTest {
         // When
         val comics = useCase.invoke(THOR.id)
         // Then
-        assertEquals(comics.size, COMMON_ITEM_DETAIL_COMICS_THOR.size)
+        assertEquals(comics.value?.data?.size, COMMON_ITEM_DETAIL_COMICS_THOR.size)
     }
 
     @Test
     fun `should call loadComics and validate data`() = runBlocking {
-        // Given
-        val useCase = GetComicsDetailUseCase(repository)
-        // When
-        val comics = useCase.invoke(THOR.id)
-        // Then
-        assertEquals(COMMON_ITEM_DETAIL_COMICS_THOR, comics)
+        val character = repository.loadComics(THOR.id)
+
+        character.run {
+            try {
+                observeForever(observerCommonItem)
+                assertEquals(value?.data, COMMON_ITEM_DETAIL_COMICS_THOR)
+            } finally {
+                removeObserver(observerCommonItem)
+            }
+        }
     }
 }

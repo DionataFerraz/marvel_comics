@@ -3,70 +3,84 @@ package com.dionataferraz.presentation
 import android.text.Editable
 import androidx.lifecycle.*
 import com.dionataferraz.domain.interactor.GetCharacterDetailUseCase
-import com.dionataferraz.presentation.extensions.switchMapToLiveData
+import com.dionataferraz.core.extensions.switchMapToLiveData
 import com.dionataferraz.presentation.model.CharacterPresentation
-import com.dionataferraz.presentation.model.mapper.toCharacterPresentation
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import android.widget.TextView
 import android.view.inputmethod.EditorInfo
+import com.dionataferraz.core.internal.NetworkError
+import com.dionataferraz.core.internal.Resource
 import com.dionataferraz.domain.interactor.GetComicsDetailUseCase
 import com.dionataferraz.domain.interactor.GetSeriesDetailUseCase
-import com.dionataferraz.presentation.model.CommonItemPresentation
+import com.dionataferraz.presentation.model.mapper.toCharacterPresentation
 import com.dionataferraz.presentation.model.mapper.toCommonItemPresentation
 
 class CharacterViewModel(
-    private val useCase: GetCharacterDetailUseCase,
+    private val getCharacterDetailUseCase: GetCharacterDetailUseCase,
     private val getComicsDetailUseCase: GetComicsDetailUseCase,
     private val getSeriesDetailUseCase: GetSeriesDetailUseCase
 ) : ViewModel() {
 
-    private val isVisible = MutableLiveData<Boolean>(false)
-    private val characterPresentation = MutableLiveData<CharacterPresentation>()
-    private val comicPresentation = MutableLiveData<List<CommonItemPresentation>>()
-    private val seriePresentation = MutableLiveData<List<CommonItemPresentation>>()
+    private val getCharacter = MutableLiveData<String>()
+    private val characterNotNull = MutableLiveData<CharacterPresentation>()
+
+    private val resourceCharacter = Transformations.switchMap(getCharacter) { characterName -> getCharacterDetailUseCase.invoke(characterName) }
+    private val character = switchMapToLiveData(resourceCharacter) { character ->
+        val char = character.data?.toCharacterPresentation()
+        if (char != null) {
+            characterNotNull.value = char
+        }
+        char
+    }
+    val isLoadingCharacter = switchMapToLiveData(resourceCharacter) { resourceCharacter -> resourceCharacter is Resource.Loading }
+    val characterName = switchMapToLiveData(character) { character -> character?.name }
+    val characterDescription = switchMapToLiveData(character) { character -> character?.description }
+    val characterImage = switchMapToLiveData(character) { character -> character?.image }
+    val isEmptyName = switchMapToLiveData(characterName) { name -> name?.isNotEmpty() }
+    val isEmptyDescription = switchMapToLiveData(characterDescription) { description -> description?.isNotEmpty() }
+    val isEmptyImage = switchMapToLiveData(characterImage) { image -> image?.isNotEmpty() }
+
+    private val resourceComics =
+        Transformations.switchMap(characterNotNull) { character -> getComicsDetailUseCase.invoke(character.id) }
+    val comics = switchMapToLiveData(resourceComics) { comics -> comics.data?.toCommonItemPresentation() }
+    val isLoadingComics = switchMapToLiveData(resourceComics) { resourceComics -> resourceComics is Resource.Loading }
+    val isEmptyComics = switchMapToLiveData(comics) { comics -> comics?.isNotEmpty() }
+
+    private val resourceSeries =
+        Transformations.switchMap(characterNotNull) { character -> getSeriesDetailUseCase.invoke(character.id) }
+    val series = switchMapToLiveData(resourceSeries) { comics -> comics.data?.toCommonItemPresentation() }
+    val isLoadingSeries = switchMapToLiveData(resourceSeries) { resourceSeries -> resourceSeries is Resource.Loading }
+    val isEmptySeries = switchMapToLiveData(series) { comics -> comics?.isNotEmpty() }
+
     private val closeKeyboard = MutableLiveData<Boolean>()
     private val isVisibleClear = MutableLiveData<Boolean>(true)
     private val editText = MutableLiveData<String>()
-    private val errorMessage = MutableLiveData<String>()
-    private val isEmptyContent = MutableLiveData<Boolean>()
 
-    val error = switchMapToLiveData(errorMessage) { message -> message }
-    val characterName = switchMapToLiveData(characterPresentation) { character -> character.name }
-    val characterDescription = switchMapToLiveData(characterPresentation) { character -> character.description }
-    val characterImage = switchMapToLiveData(characterPresentation) { character -> character.image }
-    val isEmptyDescription = switchMapToLiveData(characterDescription) { description -> description.isNotEmpty() }
-    val isEmptyComics = switchMapToLiveData(comicPresentation) { comics -> comics.isNotEmpty() }
-    val isEmptySeries = switchMapToLiveData(seriePresentation) { series -> series.isNotEmpty() }
+    val error = MediatorLiveData<NetworkError>().apply {
+        addSource(resourceCharacter) {
+            if (it is Resource.Error) {
+                value = it.errorData
+            }
+        }
+
+        addSource(resourceComics) {
+            if (it is Resource.Error) {
+                value = it.errorData
+            }
+        }
+
+        addSource(resourceSeries) {
+            if (it is Resource.Error) {
+                value = it.errorData
+            }
+        }
+    }
 
     fun closeKeyboard() = switchMapToLiveData(closeKeyboard) { closeKeyboard -> closeKeyboard }
     fun isVisibleClear() = switchMapToLiveData(isVisibleClear) { isVisibleClear -> isVisibleClear }
     fun editText() = switchMapToLiveData(editText) { editText -> editText }
-    fun isLoading() = switchMapToLiveData(isVisible) { isVisible -> isVisible }
-    fun comicPresentation() = switchMapToLiveData(comicPresentation) { comicPresentation -> comicPresentation }
-    fun seriePresentation() = switchMapToLiveData(seriePresentation) { seriePresentation -> seriePresentation }
-    fun isEmptyContent() = switchMapToLiveData(isEmptyContent) { isEmptyContent -> isEmptyContent }
 
-    private fun loadCharacters(characterName: String) {
-        viewModelScope.launch {
-            isVisible.postValue(true)
-
-            try {
-                withContext(Dispatchers.IO) {
-                    val character = useCase.invoke(characterName).toCharacterPresentation()
-                    characterPresentation.postValue(character)
-                    comicPresentation.postValue(getComicsDetailUseCase.invoke(character.id).toCommonItemPresentation())
-                    seriePresentation.postValue(getSeriesDetailUseCase.invoke(character.id).toCommonItemPresentation())
-
-                    showContent()
-                }
-            } catch (e: Exception) {
-                errorMessage.value = e.message
-            }
-
-            isVisible.postValue(false)
-        }
+    fun text(characterName: String) {
+        getCharacter.value = characterName
     }
 
     // I didn't really like this
@@ -74,7 +88,7 @@ class CharacterViewModel(
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             view?.run {
                 closeKeyBoard()
-                loadCharacters(text.toString())
+                getCharacter.value = text.toString()
             }
         }
         return false
@@ -91,9 +105,5 @@ class CharacterViewModel(
 
     private fun closeKeyBoard() {
         closeKeyboard.value = true
-    }
-
-    private fun showContent(){
-        isEmptyContent.postValue(true)
     }
 }

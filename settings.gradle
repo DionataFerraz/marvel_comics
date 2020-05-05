@@ -1,2 +1,2 @@
-include ':app', ':data', ':domain', ':remote', ':presentation'
+include ':app', ':data', ':remote', ':presentation', ':network', ':domain', ':core'
 rootProject.name='Marvel Comics'

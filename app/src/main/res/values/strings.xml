@@ -6,4 +6,11 @@
     <string name="title_comics">Comics</string>
     <string name="title_series">Series</string>
     <string name="snackbar_ok">OK</string>
+
+    <string name="error_message_connection">Connection error</string>
+    <string name="error_message_unauthorized">Unauthorized</string>
+    <string name="error_message_response">Response Error</string>
+    <string name="error_message_time_out">Time out</string>
+    <string name="error_message_failure">Error in server</string>
+
 </resources>

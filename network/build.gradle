@@ -1,0 +1,12 @@
+apply from: "$rootDir/common-android-library.gradle"
+
+dependencies {
+    implementation project(":data")
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    api "com.squareup.retrofit2:retrofit:$retrofit_version"
+    api "com.squareup.retrofit2:converter-gson:$gson_version"
+    api "com.squareup.okhttp3:logging-interceptor:$interceptor_version"
+    api 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+}

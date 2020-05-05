@@ -1,9 +1,13 @@
 package com.dionataferraz.domain.interactor
 
-import com.dionataferraz.data.repository.CharacterRepository
-import com.dionataferraz.domain.data.CharacterData
-import com.dionataferraz.domain.data.CharacterData.THOR
-import com.dionataferraz.domain.data.CharacterData.CHARACTER_DETAIL_THOR
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.dionataferraz.core.internal.Resource
+import com.dionataferraz.domain.data.CharacterThorData.COMMON_ITEM_DETAIL_SERIES_THOR
+import com.dionataferraz.domain.data.CharacterThorData.THOR
+import com.dionataferraz.domain.model.CommonItemDetail
+import com.dionataferraz.domain.repository.CharacterRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -11,15 +15,20 @@ import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class GetSeriesDetailUseCaseTest {
 
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
     private val repository: CharacterRepository = mockk()
+    private val observerCommonItem = Observer<Resource<List<CommonItemDetail?>>> {}
 
     @Before
     fun init() {
-        coEvery { repository.loadSeries(THOR.id) } returns CharacterData.THOR_SERIES
+        coEvery { repository.loadSeries(THOR.id) } returns MutableLiveData(Resource.Success(COMMON_ITEM_DETAIL_SERIES_THOR))
     }
 
     @Test
@@ -37,18 +46,22 @@ class GetSeriesDetailUseCaseTest {
         // Given
         val useCase = GetSeriesDetailUseCase(repository)
         // When
-        val comics = useCase.invoke(THOR.id)
+        val series = useCase.invoke(THOR.id)
         // Then
-        assertEquals(comics.size, CharacterData.COMMON_ITEM_DETAIL_SERIES_THOR.size)
+        assertEquals(series.value?.data?.size, COMMON_ITEM_DETAIL_SERIES_THOR.size)
     }
 
     @Test
     fun `should call loadSeries and validate data`() = runBlocking {
-        // Given
-        val useCase = GetSeriesDetailUseCase(repository)
-        // When
-        val comics = useCase.invoke(THOR.id)
-        // Then
-        assertEquals(CharacterData.COMMON_ITEM_DETAIL_SERIES_THOR, comics)
+        val character = repository.loadSeries(THOR.id)
+
+        character.run {
+            try {
+                observeForever(observerCommonItem)
+                assertEquals(value?.data, COMMON_ITEM_DETAIL_SERIES_THOR)
+            } finally {
+                removeObserver(observerCommonItem)
+            }
+        }
     }
 }

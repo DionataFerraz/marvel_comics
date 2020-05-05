@@ -1,12 +1,13 @@
 package com.dionataferraz.domain.interactor
 
-import com.dionataferraz.data.repository.CharacterRepository
+import androidx.lifecycle.LiveData
+import com.dionataferraz.core.internal.Resource
 import com.dionataferraz.domain.model.CharacterDetail
-import com.dionataferraz.domain.model.mapper.toCharacterDetail
+import com.dionataferraz.domain.repository.CharacterRepository
 
 class GetCharacterDetailUseCase(private val repository: CharacterRepository) {
 
-    suspend fun invoke(characterName: String): CharacterDetail =
-        repository.loadCharacter(characterName = characterName).toCharacterDetail()
+    fun invoke(characterName: String): LiveData<Resource<CharacterDetail>> =
+        repository.loadCharacter(characterName = characterName)
 
 }

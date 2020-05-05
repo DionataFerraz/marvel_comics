@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Marvel Comics</string>
+    <string name="app_name" translatable="false">Marvel Comics</string>
 
     <string name="search_hint">Character Name</string>
-    <string name="placeholder_description">Join 3-D MAN, CLOUD 9, KOMODO, HARDBALL, and heroes around America in the battle that will decide the fate of the planet and the future of the Initiative program. Will the Kill Krew Army win the day?</string>
+    <string name="placeholder_description" translatable="false">Join 3-D MAN, CLOUD 9, KOMODO, HARDBALL, and heroes around America in the battle that will decide the fate of the planet and the future of the Initiative program. Will the Kill Krew Army win the day?</string>
     <string name="title_comics">Comics</string>
     <string name="title_series">Series</string>
-    <string name="snackbar_ok">OK</string>
+    <string name="snackbar_ok" translatable="false">OK</string>
 
     <string name="error_message_connection">Connection error</string>
     <string name="error_message_unauthorized">Unauthorized</string>

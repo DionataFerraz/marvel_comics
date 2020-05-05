@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_hint">Nome do personagem</string>
+    <string name="title_comics">Histórias em quadrinhos</string>
+    <string name="title_series">Séries</string>
+
+    <string name="error_message_connection">Erro de conexão</string>
+    <string name="error_message_unauthorized">Não autorizado</string>
+    <string name="error_message_response">Erro de resposta</string>
+    <string name="error_message_time_out">Tempo esgotado</string>
+    <string name="error_message_failure">Erro no servidor</string>
+</resources>

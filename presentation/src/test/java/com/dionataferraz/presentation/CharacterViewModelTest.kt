@@ -43,7 +43,7 @@ class CharacterViewModelTest {
 
         charactersViewModel.run {
             characterName.run {
-                text(THOR.name)
+                loadCharacter(THOR.name)
                 try {
                     observeForever(observerString)
                     Assert.assertEquals(value, THOR.name)

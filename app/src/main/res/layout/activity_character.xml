@@ -42,9 +42,9 @@
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
+                        android:id="@+id/actv_character_name"
                         android:layout_width="match_parent"
                         android:layout_height="38dp"
-                        android:afterTextChanged="@{(text) -> vm.onTextChange(text)}"
                         android:background="@drawable/shape_border_corner_black"
                         android:completionThreshold="3"
                         android:drawableStart="@drawable/ic_search"
@@ -53,7 +53,6 @@
                         android:hint="@string/search_hint"
                         android:imeOptions="actionSearch"
                         android:inputType="textNoSuggestions|textCapSentences"
-                        android:onEditorAction="@{(view, actionId, event) -> vm.onEditorAction(view, actionId)}"
                         android:paddingStart="14dp"
                         android:paddingEnd="36dp"
                         android:popupBackground="@drawable/shape_border_corner_white"

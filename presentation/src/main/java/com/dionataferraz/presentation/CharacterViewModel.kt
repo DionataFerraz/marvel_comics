@@ -1,12 +1,9 @@
 package com.dionataferraz.presentation
 
-import android.text.Editable
 import androidx.lifecycle.*
 import com.dionataferraz.domain.interactor.GetCharacterDetailUseCase
 import com.dionataferraz.core.extensions.switchMapToLiveData
 import com.dionataferraz.presentation.model.CharacterPresentation
-import android.widget.TextView
-import android.view.inputmethod.EditorInfo
 import com.dionataferraz.core.internal.NetworkError
 import com.dionataferraz.core.internal.Resource
 import com.dionataferraz.domain.interactor.GetComicsDetailUseCase
@@ -23,7 +20,8 @@ class CharacterViewModel(
     private val getCharacter = MutableLiveData<String>()
     private val characterNotNull = MutableLiveData<CharacterPresentation>()
 
-    private val resourceCharacter = Transformations.switchMap(getCharacter) { characterName -> getCharacterDetailUseCase.invoke(characterName) }
+    private val resourceCharacter =
+        Transformations.switchMap(getCharacter) { characterName -> getCharacterDetailUseCase.invoke(characterName) }
     private val character = switchMapToLiveData(resourceCharacter) { character ->
         val char = character.data?.toCharacterPresentation()
         if (char != null) {
@@ -79,27 +77,17 @@ class CharacterViewModel(
     fun isVisibleClear() = switchMapToLiveData(isVisibleClear) { isVisibleClear -> isVisibleClear }
     fun editText() = switchMapToLiveData(editText) { editText -> editText }
 
-    fun text(characterName: String) {
+    fun loadCharacter(characterName: String) {
+        closeKeyBoard()
         getCharacter.value = characterName
-    }
-
-    // I didn't really like this
-    fun onEditorAction(view: TextView?, actionId: Int?): Boolean {
-        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            view?.run {
-                closeKeyBoard()
-                getCharacter.value = text.toString()
-            }
-        }
-        return false
     }
 
     fun clearText() {
         editText.value = ""
     }
 
-    fun onTextChange(editable: Editable?): Boolean =
-        editable.isNullOrEmpty().apply {
+    fun onTextChange(text: String?): Boolean =
+        text.isNullOrEmpty().apply {
             isVisibleClear.value = this
         }
 

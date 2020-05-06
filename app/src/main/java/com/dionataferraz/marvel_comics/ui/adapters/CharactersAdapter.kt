@@ -11,8 +11,9 @@ import com.dionataferraz.marvel_comics.binding.RecyclerViewBinding.BindableAdapt
 import com.dionataferraz.marvel_comics.databinding.ItemCharacterBinding
 import com.dionataferraz.presentation.model.CharacterPresentation
 
-class CharactersAdapter(private val onClick: (CharacterPresentation) -> Unit) :
-    ListAdapter<CharacterPresentation, CharactersAdapter.ViewHolder>(CharacterDiffCallback()),
+class CharactersAdapter(
+    private val onClick: (CharacterPresentation, ViewHolder) -> Unit
+) : ListAdapter<CharacterPresentation, CharactersAdapter.ViewHolder>(CharacterDiffCallback()),
     BindableAdapter<List<CharacterPresentation>> {
 
     override fun setData(data: List<CharacterPresentation>?) {
@@ -35,8 +36,9 @@ class CharactersAdapter(private val onClick: (CharacterPresentation) -> Unit) :
                 character = currentCharacter
                 executePendingBindings()
 
+                ivCharacter.transitionName = "transitionCharacter_$position"
                 root.setOnClickListener {
-                    onClick(currentCharacter)
+                    onClick(currentCharacter, holder)
                 }
             }
         }

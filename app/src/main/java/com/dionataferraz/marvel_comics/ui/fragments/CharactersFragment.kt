@@ -25,8 +25,8 @@ class CharactersFragment : BindingBaseFragment<FragmentCharactersBinding>() {
     }
 
     override fun initializeUI() {
-        rv_characters.adapter = CharactersAdapter { character ->
-            CharacterDetailFragment.run { showFragment(newInstance(character), TAG) }
+        rv_characters.adapter = CharactersAdapter { character, holder ->
+            CharacterDetailFragment.run { showFragment(newInstance(character), TAG, holder) }
         }
     }
 

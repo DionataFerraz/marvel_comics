@@ -7,7 +7,7 @@ import com.dionataferraz.domain.model.CommonItemDetail
 
 interface CharacterRepository {
 
-    fun loadCharacter(characterName: String): LiveData<Resource<CharacterDetail>>
+    fun loadCharacter(characterName: String): LiveData<Resource<List<CharacterDetail>>>
 
     fun loadComics(characterId: Int): LiveData<Resource<List<CommonItemDetail>>>
 

@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.dionataferraz.core.internal.Resource
+import com.dionataferraz.domain.data.CharacterThorData.CHARACTER_DETAIL_THOR_LIST
 import com.dionataferraz.domain.data.CharacterThorData.THOR
-import com.dionataferraz.domain.data.CharacterThorData.CHARACTER_DETAIL_THOR
 import com.dionataferraz.domain.model.CharacterDetail
 import com.dionataferraz.domain.repository.CharacterRepository
 import io.mockk.coEvery
@@ -24,11 +24,11 @@ class GetCharacterDetailUseCaseTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val repository: CharacterRepository = mockk()
-    private val observerCharacter = Observer<Resource<CharacterDetail?>> {}
+    private val observerCharacter = Observer<Resource<List<CharacterDetail?>>> {}
 
     @Before
     fun init() {
-        coEvery { repository.loadCharacter(THOR.name) } returns MutableLiveData(Resource.Success(CHARACTER_DETAIL_THOR))
+        coEvery { repository.loadCharacter(THOR.name) } returns MutableLiveData(Resource.Success(CHARACTER_DETAIL_THOR_LIST))
     }
 
     @Test
@@ -48,7 +48,7 @@ class GetCharacterDetailUseCaseTest {
         character.run {
             try {
                 observeForever(observerCharacter)
-                assertEquals(value?.data, CHARACTER_DETAIL_THOR)
+                assertEquals(value?.data, CHARACTER_DETAIL_THOR_LIST)
             } finally {
                 removeObserver(observerCharacter)
             }

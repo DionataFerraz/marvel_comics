@@ -1,6 +1,7 @@
 package com.dionataferraz.marvel_comics.binding
 
 import android.text.Editable
+import android.text.Html.fromHtml
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -18,7 +19,7 @@ fun onClickActionSearch(textView: TextView?, onClick: (text: String) -> Unit) {
 
 @BindingAdapter("app:afterTextChanged")
 fun afterTextChanged(textView: TextView?, onTextChanged: (text: String?) -> Unit) {
-    textView?. addTextChangedListener(object : TextWatcher {
+    textView?.addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(editable: Editable?) {
             onTextChanged(editable?.toString())
         }
@@ -27,4 +28,9 @@ fun afterTextChanged(textView: TextView?, onTextChanged: (text: String?) -> Unit
 
         override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
     })
+}
+
+@BindingAdapter("app:textHTML")
+fun textHTML(textView: TextView, text: String?) {
+    textView.text = fromHtml(text ?: "")
 }

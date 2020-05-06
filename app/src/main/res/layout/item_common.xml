@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="comic"
+            name="item"
             type="com.dionataferraz.presentation.model.CommonItemPresentation" />
 
     </data>
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{comic.image}"
+                app:imageUrl="@{item.image}"
                 tools:ignore="contentDescription"
                 tools:src="@drawable/img_place_holder" />
 
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@{comic.title}"
+                android:text="@{item.title}"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.Regular.Small"
                 app:layout_constraintBottom_toBottomOf="@+id/v_gradient"

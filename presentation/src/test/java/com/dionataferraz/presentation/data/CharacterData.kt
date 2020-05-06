@@ -2,10 +2,25 @@ package com.dionataferraz.presentation.data
 
 import com.dionataferraz.domain.model.CharacterDetail
 import com.dionataferraz.domain.model.CommonItemDetail
-import com.dionataferraz.presentation.model.mapper.toCharacterPresentation
+import com.dionataferraz.presentation.model.CharacterPresentation
 import com.dionataferraz.presentation.model.mapper.toCommonItemPresentation
 
 object CharacterData {
+
+    val THOR_LIST = listOf(
+        CharacterDetail(
+            1009664,
+            "Thor",
+            "As the Norse God of thunder and lightning, Thor wields one of the greatest weapons ever made, the enchanted hammer Mjolnir. While others have described Thor as an over-muscled, oafish imbecile, he's quite smart and compassionate.  He's self-assured, and he would never, ever stop fighting for a worthwhile cause.",
+            "http://i.annihil.us/u/prod/marvel/i/mg/d/d0/5269657a74350.jpg"
+        ),
+        CharacterDetail(
+            1017576,
+            "Thor (Goddess of Thunder)",
+            "<p class=\"Body\">When the Odinson lost his ability to wield Mjolnir, the role of Thor, God of Thunder, was left unoccupied&hellip;albeit for a short time. A mysterious female figure picked up the hammer with ease, changing the inscription to fit her status as the Goddess of Thunder.</p>",
+            "http://i.annihil.us/u/prod/marvel/i/mg/4/10/545a857a38f92.jpg"
+        )
+    )
 
     val THOR = CharacterDetail(
         1009664,
@@ -14,15 +29,19 @@ object CharacterData {
         "http://i.annihil.us/u/prod/marvel/i/mg/d/d0/5269657a74350.jpg"
     )
 
-    val THOR_EMPTY = CharacterDetail(
+    val CHARACTER_PRESENTATION_THOR_EMPTY = CharacterPresentation(
         1009664,
         "",
         "",
         ""
-
     )
 
-    val CHARACTER_PRESENTATION_THOR = THOR.toCharacterPresentation()
+    val CHARACTER_PRESENTATION_THOR = CharacterPresentation(
+        1009664,
+        "Thor",
+        "As the Norse God of thunder and lightning, Thor wields one of the greatest weapons ever made, the enchanted hammer Mjolnir. While others have described Thor as an over-muscled, oafish imbecile, he's quite smart and compassionate.  He's self-assured, and he would never, ever stop fighting for a worthwhile cause.",
+        "http://i.annihil.us/u/prod/marvel/i/mg/d/d0/5269657a74350.jpg"
+    )
 
     val THOR_COMICS = listOf(
         CommonItemDetail(

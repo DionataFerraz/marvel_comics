@@ -14,7 +14,7 @@ class CharacterRepositoryImpl(
         switchMapToLiveData(dataSource.getCharacter(characterName)) { resource ->
             resource.resourceType { response ->
                 response?.run {
-                    data.results.first().toCharacterDetail()
+                    data.results.toCharacterDetail()
                 }
             }
         }

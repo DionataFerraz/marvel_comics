@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.dionataferraz.core.internal.Resource
-import com.dionataferraz.domain.data.CharacterIronManData.CHARACTER_DETAIL_IRON_MAN
+import com.dionataferraz.domain.data.CharacterIronManData.CHARACTER_DETAIL_IRON_MAN_LIST
 import com.dionataferraz.domain.data.CharacterIronManData.COMMON_ITEM_DETAIL_COMICS_IRON_MAN
 import com.dionataferraz.domain.data.CharacterIronManData.COMMON_ITEM_DETAIL_SERIES_IRON_MAN
 import com.dionataferraz.domain.data.CharacterIronManData.IRON_MAN
@@ -23,18 +23,22 @@ class CharacterRepositoryTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val repository: CharacterRepository = mockk()
-    private val observerCharacter = Observer<Resource<CharacterDetail?>> {}
+    private val observerCharacter = Observer<Resource<List<CharacterDetail?>>> {}
     private val observerCommonItem = Observer<Resource<List<CommonItemDetail?>>> {}
 
     @Test
     fun `should call loadCharacter and validate data`() = runBlocking {
-        coEvery { repository.loadCharacter(IRON_MAN.name) } returns MutableLiveData(Resource.Success(CHARACTER_DETAIL_IRON_MAN))
+        coEvery { repository.loadCharacter(IRON_MAN.name) } returns MutableLiveData(
+            Resource.Success(
+                CHARACTER_DETAIL_IRON_MAN_LIST
+            )
+        )
         val character = repository.loadCharacter(IRON_MAN.name)
 
         character.run {
             try {
                 observeForever(observerCharacter)
-                assertEquals(value?.data, CHARACTER_DETAIL_IRON_MAN)
+                assertEquals(value?.data, CHARACTER_DETAIL_IRON_MAN_LIST)
             } finally {
                 removeObserver(observerCharacter)
             }

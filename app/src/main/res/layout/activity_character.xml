@@ -1,207 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_shark"
+    tools:context=".ui.CharacterActivity">
 
-    <data>
-
-        <variable
-            name="vm"
-            type="com.dionataferraz.presentation.CharacterViewModel" />
-    </data>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/cl_container"
+    <FrameLayout
+        android:id="@+id/container_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/black_shark">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:gravity="center"
-                android:text="@string/app_name"
-                android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.Bold.ExtraLarge"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/view_margin_horizontal"
-                app:hintAnimationEnabled="false"
-                app:hintEnabled="false">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <AutoCompleteTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="38dp"
-                        android:background="@drawable/shape_border_corner_black"
-                        android:completionThreshold="3"
-                        android:drawableStart="@drawable/ic_search"
-                        android:drawablePadding="8dp"
-                        android:dropDownAnchor="@id/vLine"
-                        android:hint="@string/search_hint"
-                        android:imeOptions="actionSearch"
-                        android:inputType="textNoSuggestions|textCapSentences"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="36dp"
-                        android:popupBackground="@drawable/shape_border_corner_white"
-                        android:privateImeOptions="nm"
-                        android:text="@{vm.editText}"
-                        android:textColor="@android:color/white"
-                        android:textColorHighlight="@color/white_alpha_40"
-                        android:textColorHint="@color/white_alpha_40"
-                        android:textColorLink="@color/white_alpha_40"
-                        android:textCursorDrawable="@null"
-                        app:afterTextChanged="@{vm.onTextChange}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:onClickActionSearch="@{vm.loadCharacter}" />
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="6dp"
-                        android:onClick="@{() -> vm.clearText()}"
-                        android:padding="8dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_close"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:visible="@{!vm.isVisibleClear}"
-                        tools:ignore="contentDescription" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <View
-                android:id="@+id/vLine"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/white_alpha_20" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
+        <fragment
+            android:id="@+id/fragment_container"
+            android:name="com.dionataferraz.marvel_comics.ui.fragments.CharactersFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/black_shark"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:tag="CharactersFragment"
+            tools:layout="@layout/fragment_characters" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    </FrameLayout>
 
-                <ImageView
-                    android:id="@+id/iv_character_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    app:imageUrl="@{vm.characterImage}"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:visible="@{vm.isEmptyImage()}"
-                    tools:ignore="contentDescription"
-                    tools:src="@drawable/img_place_holder" />
-
-                <View
-                    android:id="@+id/v_gradient"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="@drawable/shape_vertical_gradient"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_character_image"
-                    app:visible="@{vm.isEmptyName}" />
-
-                <TextView
-                    android:id="@+id/tv_character_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="24dp"
-                    android:gravity="center|bottom"
-                    android:text="@{vm.characterName}"
-                    android:textAppearance="@style/TextAppearance.Bold.Large"
-                    app:layout_constraintBottom_toBottomOf="@id/v_gradient"
-                    app:visible="@{vm.isEmptyName}"
-                    tools:text="@string/search_hint" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_character_image">
-
-                    <TextView
-                        android:id="@+id/tv_character_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/view_margin_horizontal"
-                        android:layout_marginTop="@dimen/view_margin_between_views"
-                        android:layout_marginEnd="@dimen/view_margin_horizontal"
-                        android:layout_marginBottom="@dimen/view_margin_between_views"
-                        android:text="@{vm.characterDescription}"
-                        android:textAppearance="@style/TextAppearance.Regular"
-                        app:visible="@{vm.isEmptyDescription}"
-                        tools:text="@string/placeholder_description" />
-
-                    <TextView
-                        android:id="@+id/tv_comics"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/view_margin_horizontal"
-                        android:layout_marginTop="@dimen/view_margin_between_views"
-                        android:text="@string/title_comics"
-                        android:textAppearance="@style/TextAppearance.Bold.Large"
-                        app:visible="@{vm.isLoadingComics || vm.isEmptyComics}" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_comics"
-                        style="@style/RecyclerView"
-                        app:data="@{vm.comics}"
-                        app:visible="@{vm.isLoadingComics || vm.isEmptyComics}"
-                        tools:listitem="@layout/item_comic" />
-
-                    <TextView
-                        android:id="@+id/tv_series"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/view_margin_horizontal"
-                        android:layout_marginTop="@dimen/view_margin_between_views"
-                        android:text="@string/title_series"
-                        android:textAppearance="@style/TextAppearance.Bold.Large"
-                        app:visible="@{vm.isEmptySeries}" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_series"
-                        style="@style/RecyclerView"
-                        app:data="@{vm.series}"
-                        app:visible="@{vm.isEmptySeries}"
-                        tools:listitem="@layout/item_comic" />
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-        <ProgressBar
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            app:visible="@{vm.isLoadingCharacter || vm.isLoadingComics|| vm.isLoadingSeries}" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-</layout>
+</LinearLayout>

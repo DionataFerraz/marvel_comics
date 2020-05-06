@@ -15,7 +15,22 @@ object CharacterIronManData {
         Thumbnail("http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55", "jpg")
     )
 
-    val CHARACTER_DETAIL_IRON_MAN = IRON_MAN.toCharacterDetail()
+    val IRON_MAN_LIST = listOf(
+        Character(
+            1009368,
+            "Iron Man",
+            "Wounded, captured and forced to build a weapon by his enemies, billionaire industrialist Tony Stark instead created an advanced suit of armor to save his life and escape captivity. Now with a new outlook on life, Tony uses his money and intelligence to make the world a safer, better place as Iron Man.",
+            Thumbnail("http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55", "jpg")
+        ),
+        Character(
+            1017320,
+            "Iron Man (Iron Man 3 - The Official Game)",
+            "",
+            Thumbnail("http://i.annihil.us/u/prod/marvel/i/mg/9/03/5239c1408c936", "jpg")
+        )
+    )
+
+    val CHARACTER_DETAIL_IRON_MAN_LIST = IRON_MAN_LIST.toCharacterDetail()
 
     val IRON_MAN_COMICS = listOf(
         CommonItem(

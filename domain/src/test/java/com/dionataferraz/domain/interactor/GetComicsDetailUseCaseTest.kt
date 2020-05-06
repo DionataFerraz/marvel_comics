@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.dionataferraz.core.internal.Resource
-import com.dionataferraz.domain.data.CharacterThorData.THOR
 import com.dionataferraz.domain.data.CharacterThorData.COMMON_ITEM_DETAIL_COMICS_THOR
+import com.dionataferraz.domain.data.CharacterThorData.THOR
 import com.dionataferraz.domain.model.CommonItemDetail
 import com.dionataferraz.domain.repository.CharacterRepository
 import io.mockk.coEvery

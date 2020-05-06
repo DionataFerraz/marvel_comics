@@ -1,14 +1,14 @@
 package com.dionataferraz.marvel_comics.extensions
 
-import android.view.View
+import android.app.Activity
 import com.dionataferraz.core.internal.NetworkError
 import com.dionataferraz.core.internal.NetworkErrorType
 import com.dionataferraz.marvel_comics.R
 import com.google.android.material.snackbar.Snackbar
 
-fun View.showSnackbar(networkError: NetworkError?) {
+fun Activity.showSnackbar(networkError: NetworkError?) {
     networkError?.let {
-        Snackbar.make(this, getMessageError(it.networkErrorType), Snackbar.LENGTH_LONG).run {
+        Snackbar.make(findViewById(android.R.id.content), getMessageError(it.networkErrorType), Snackbar.LENGTH_LONG).run {
             setAction(R.string.snackbar_ok) {
                 dismiss()
             }

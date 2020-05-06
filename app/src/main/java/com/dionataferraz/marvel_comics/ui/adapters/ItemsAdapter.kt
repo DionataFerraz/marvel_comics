@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dionataferraz.marvel_comics.R
 import com.dionataferraz.marvel_comics.binding.RecyclerViewBinding.BindableAdapter
-import com.dionataferraz.marvel_comics.databinding.ItemComicBinding
+import com.dionataferraz.marvel_comics.databinding.ItemCommonBinding
 import com.dionataferraz.presentation.model.CommonItemPresentation
 
-class ComicsAdapter : ListAdapter<CommonItemPresentation, ComicsAdapter.ViewHolder>(ComicListDiffCallback()),
+class ItemsAdapter : ListAdapter<CommonItemPresentation, ItemsAdapter.ViewHolder>(ComicListDiffCallback()),
     BindableAdapter<List<CommonItemPresentation>> {
 
     override fun setData(data: List<CommonItemPresentation>?) {
@@ -22,22 +22,22 @@ class ComicsAdapter : ListAdapter<CommonItemPresentation, ComicsAdapter.ViewHold
         ViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_comic,
+                R.layout.item_common,
                 parent,
                 false
             )
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        currentList[position].let { promoLuckyNumber ->
+        currentList[position].let { currentCharacter ->
             holder.binding.run {
-                comic = promoLuckyNumber
+                item = currentCharacter
                 executePendingBindings()
             }
         }
     }
 
-    inner class ViewHolder(val binding: ItemComicBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemCommonBinding) : RecyclerView.ViewHolder(binding.root)
 
     private class ComicListDiffCallback : DiffUtil.ItemCallback<CommonItemPresentation>() {
 

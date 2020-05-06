@@ -9,24 +9,18 @@ import retrofit2.http.Query
 
 interface CharacterService {
 
-    @GET("characters?apikey=${BuildConfig.PRIVATE_KEY}")
+    @GET("characters?apikey=${BuildConfig.PRIVATE_KEY}&ts=${BuildConfig.TS}&hash=${BuildConfig.HASH}")
     fun getCharacterAsync(
-        @Query("ts") ts: String,
-        @Query("hash") hash: String,
         @Query("nameStartsWith") nameStartsWith: String
     ): Deferred<Response<DataResponse<Results<Character>>>>
 
-    @GET("characters/{characterId}/comics?apikey=${BuildConfig.PRIVATE_KEY}")
+    @GET("characters/{characterId}/comics?apikey=${BuildConfig.PRIVATE_KEY}&ts=${BuildConfig.TS}&hash=${BuildConfig.HASH}")
     fun getComicsAsync(
-        @Path("characterId") characterId: Int,
-        @Query("ts") ts: String,
-        @Query("hash") hash: String
+        @Path("characterId") characterId: Int
     ): Deferred<Response<DataResponse<Results<CommonItem>>>>
 
-    @GET("characters/{characterId}/series?apikey=${BuildConfig.PRIVATE_KEY}")
+    @GET("characters/{characterId}/series?apikey=${BuildConfig.PRIVATE_KEY}&ts=${BuildConfig.TS}&hash=${BuildConfig.HASH}")
     fun getSeriesAsync(
-        @Path("characterId") characterId: Int,
-        @Query("ts") ts: String,
-        @Query("hash") hash: String
+        @Path("characterId") characterId: Int
     ): Deferred<Response<DataResponse<Results<CommonItem>>>>
 }

@@ -18,6 +18,8 @@ android {
 
         buildConfigField "String", "PRIVATE_KEY", "\"04806f8c35e3f6d3ff54432aec4d7716\""
         buildConfigField "String", "PUBLIC_KEY", "\"47f650f899bbc02936b23bf120a2c19dc2d1743a\""
+        buildConfigField "String", "HASH", "\"fbe7d619b91f89200f80219485b839c3\""
+        buildConfigField "String", "TS", "\"2020.05.06.01.45.28\""
         buildConfigField "String", "HTTP_SERVER", "\"https://gateway.marvel.com/v1/public/\""
     }
 

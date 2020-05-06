@@ -1,5 +1,6 @@
 package com.dionataferraz.remote.dsl
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.dionataferraz.core.internal.NetworkError
 import com.dionataferraz.core.internal.NetworkErrorType
@@ -20,17 +21,20 @@ class CallHandler<RESPONSE : Any> {
 
         GlobalScope.launch {
             try {
-                val response = client.await().body()
+                val clientAwait = client.await()
+                val response = clientAwait.body()
                 withContext(Dispatchers.Main) {
+                    if (clientAwait.code() == 401) {
+                        result.value = Resource.Error(NetworkError(NetworkErrorType.UNAUTHORIZED))
+                    }
                     result.value = Resource.Success(response)
                 }
+
             } catch (exception: Exception) {
                 withContext(Dispatchers.Main) {
                     val networkError =
                         when (exception) {
-                            is ConnectException, is UnknownHostException -> NetworkError(
-                                NetworkErrorType.CONNECTION
-                            )
+                            is ConnectException, is UnknownHostException -> NetworkError(NetworkErrorType.CONNECTION)
                             is HttpException -> httpNetworkError(exception)
                             is SocketTimeoutException -> NetworkError(NetworkErrorType.TIME_OUT)
                             else -> NetworkError(NetworkErrorType.FAILURE)
@@ -45,9 +49,6 @@ class CallHandler<RESPONSE : Any> {
     }
 
     private fun httpNetworkError(exception: HttpException): NetworkError {
-        if (exception.code() == 401) {
-            return NetworkError(NetworkErrorType.UNAUTHORIZED)
-        }
         return try {
             NetworkError(NetworkErrorType.RESPONSE, exception.code(), exception.message())
         } catch (exception: Exception) {
